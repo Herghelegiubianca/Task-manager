@@ -37,8 +37,8 @@ public class ComplexTask extends Task{
 
            for(Task t: this.tasks)
            {
-               int aux=c.searchTask(t);
-               if(aux==-1)
+               Task aux=c.searchTask(t);
+               if(aux==null)
                {
                    return false;
                }
@@ -51,24 +51,53 @@ public class ComplexTask extends Task{
         }
     }
 
-    public int searchTask(Task task)
+    public Task searchTask(Task task)
     {
-        int index=0;
         for(Task t: this.tasks)
         {
             if(t.equals(task))
             {
-                return index;
+                return t;
             }
-            index++;
+            else if(t instanceof ComplexTask)
+            {
+                ComplexTask c=(ComplexTask)t;
+                Task aux=c.searchTask(task);
+                if(aux!=null)
+                {
+                    return aux;
+                }
+            }
         }
 
-        return -1;
+        return null;
+    }
+
+    public Task searchTaskOnId(int idTask)
+    {
+        for(Task t: this.tasks)
+        {
+            if(t.getIdTask()==idTask)
+            {
+                return t;
+            }
+            else if(t instanceof ComplexTask)
+            {
+                ComplexTask c=(ComplexTask)t;
+                Task aux=c.searchTaskOnId(idTask);
+                if(aux!=null)
+                {
+                    return aux;
+                }
+            }
+        }
+
+        return null;
     }
 
     public void addTask(Task task) throws ElementAlreadyExists
     {
-        if(this.searchTask(task)==-1)
+        if(this.searchTask(task)==null)
         {
             this.tasks.add(task);
             return;
@@ -80,10 +109,25 @@ public class ComplexTask extends Task{
 
     public void deleteTask(Task task) throws NonexistentElement
     {
-        int index=this.searchTask(task);
-        if(index!=-1)
+        Task aux=this.searchTask(task);
+        if(aux!=null)
         {
-            this.tasks.remove(index);
+            if(this.tasks.remove(aux))
+            {
+                return;
+            }
+
+            for(Task t: this.tasks)
+            {
+                if(t instanceof ComplexTask)
+                {
+                    Task aux1=((ComplexTask)t).searchTask(task);
+                    if(aux1!=null)
+                    {
+                        ((ComplexTask)t).deleteTask(task);
+                    }
+                }
+            }
             return;
         }
 
