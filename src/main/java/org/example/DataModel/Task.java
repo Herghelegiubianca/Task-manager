@@ -1,6 +1,6 @@
 package org.example.DataModel;
 
-public abstract class Task {
+public sealed abstract class Task permits SimpleTask,ComplexTask{
     private int idTask;
     private String statusTask;
 

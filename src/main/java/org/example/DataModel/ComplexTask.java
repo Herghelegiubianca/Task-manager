@@ -2,7 +2,7 @@ package org.example.DataModel;
 
 import java.util.ArrayList;
 
-public class ComplexTask extends Task{
+public final class ComplexTask extends Task{
     private ArrayList<Task> tasks=new ArrayList<>();
 
     public ComplexTask(){}
@@ -35,15 +35,22 @@ public class ComplexTask extends Task{
                return false;
            }
 
+           if(this.getIdTask()!=c.getIdTask())
+           {
+               return false;
+           }
+
+            if(!this.getStatusTask().equals(c.getStatusTask()))
+            {
+                return false;
+            }
            for(Task t: this.tasks)
            {
-               Task aux=c.searchTask(t);
-               if(aux==null)
+               if(!c.tasks.contains(t))
                {
                    return false;
                }
            }
-
            return true;
         }
         else{

@@ -4,6 +4,7 @@ import org.example.DataModel.Employee;
 import org.example.DataModel.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -55,5 +56,33 @@ public class Utility {
         }
         throw new NoEmployeesException("Nu exista angajati pentru care sa se efectueze filtrarea!");
     }
+
+    public HashMap<String,Map<String,Integer>> statistics (TaskManagement tm) throws NoEmployeesException
+    {
+        HashMap<String,Map<String,Integer>> rez=new HashMap<>();
+
+        if(tm.getMap()==null || tm.getMap().size()==0)
+        {
+            throw new NoEmployeesException("Nu exista angajati pentru care sa se afiseze statisticile!");
+        }
+
+        for(Employee e:tm.getMap().keySet())
+        {
+            rez.put(e.getName(),new HashMap<>());
+            int c=tm.nrOfCompletedTasks(e);
+            if(c!=0)
+            {
+                rez.get(e.getName()).put("Completed",c);
+            }
+            c=tm.nrOfUncompletedTasks(e);
+            if(c!=0)
+            {
+                rez.get(e.getName()).put("Uncompleted",c);
+            }
+        }
+
+        return rez;
+    }
+
 
 }

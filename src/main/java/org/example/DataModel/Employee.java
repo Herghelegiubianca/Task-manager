@@ -48,6 +48,20 @@ public class Employee {
         return aux;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if(o instanceof Employee)
+        {
+            Employee e=(Employee)o;
+            if(this.idEmployee==e.idEmployee && this.name.equals(e.name))
+            {
+               return true;
+            }
+        }
+        return false;
+    }
+
         @Override
         public String toString()
         {

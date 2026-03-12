@@ -1,6 +1,6 @@
 package org.example.DataModel;
 
-public class SimpleTask extends Task{
+public final class SimpleTask extends Task{
     private int startHour;
     private int endHour;
 

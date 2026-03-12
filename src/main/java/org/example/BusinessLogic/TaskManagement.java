@@ -64,22 +64,11 @@ public class TaskManagement {
              task.setStatusTask("Uncompleted");
          }
          else{
-             for(Task t: tasks)
-             {
-                 if(t.equals(task))
-                 {
-                     throw new DuplicateTask("Angajatul curent se ocupa deja de sarcina pe care doriti sa i-o alocati!");
-                 }
-                 else if(t instanceof ComplexTask)
-                 {
-                     ComplexTask c=(ComplexTask)t;
-                     Task aux=c.searchTask(task);
+             Task t=searchTaskById(e,task.getIdTask());
 
-                     if(aux!=null)
-                     {
-                         throw new DuplicateTask("Angajatul curent se ocupa deja de sarcina pe care doriti sa i-o alocati!");
-                     }
-                 }
+             if(t!=null)
+             {
+                 throw new DuplicateTask("Angajatul curent se ocupa deja de sarcina pe care doriti sa i-o aisgnati!");
              }
              tasks.add(task);
              task.setStatusTask("Uncompleted");
@@ -103,7 +92,10 @@ public class TaskManagement {
 
         for(Task t:this.map.get(e))
         {
-            sum+=t.estimateDuration();
+            if(t.getStatusTask().equals("Completed"))
+            {
+                sum+=t.estimateDuration();
+            }
         }
 
         return sum;
@@ -160,6 +152,48 @@ public class TaskManagement {
         }
 
         throw new NonexistentEmployee("Angajatul pentru care doriti sa modificati un task nu exista!");
+    }
+
+    public int nrOfCompletedTasks(Employee e)
+    {
+        if(this.map.keySet().contains(e))
+        {
+            ArrayList<Task> tasks=this.map.get(e);
+            if(tasks!=null && tasks.size()>0)
+            {
+                int counter=0;
+                for(Task t: tasks)
+                {
+                    if(t.getStatusTask().equals("Completed"))
+                    {
+                        counter++;
+                    }
+                }
+                return counter;
+            }
+        }
+        return 0;
+    }
+
+    public int nrOfUncompletedTasks(Employee e)
+    {
+        if(this.map.keySet().contains(e))
+        {
+            ArrayList<Task> tasks=this.map.get(e);
+            if(tasks!=null && tasks.size()>0)
+            {
+                int counter=0;
+                for(Task t: tasks)
+                {
+                    if(t.getStatusTask().equals("Uncompleted"))
+                    {
+                        counter++;
+                    }
+                }
+                return counter;
+            }
+        }
+        return 0;
     }
 
 }
