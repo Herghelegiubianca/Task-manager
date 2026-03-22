@@ -10,43 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public class SerializationOperations{
-    private Map<Employee, List<Task>> map;
-    private ArrayList<Task> tasks;
-    private ArrayList<Employee> employees;
 
     public SerializationOperations(){}
 
-    public SerializationOperations(Map<Employee, List<Task>> map, ArrayList<Task> tasks, ArrayList<Employee> employees) {
-        this.map = map;
-        this.tasks = tasks;
-        this.employees = employees;
-    }
-
-    public void setMap(Map<Employee, List<Task>> map) {
-        this.map = map;
-    }
-
-    public void setTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    public void setEmployees(ArrayList<Employee> employees) {
-        this.employees = employees;
-    }
-
-    public Map<Employee, List<Task>> getMap() {
-        return map;
-    }
-
-    public ArrayList<Task> getTasks() {
-        return tasks;
-    }
-
-    public ArrayList<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void saveData() throws
+    public void saveData(Map<Employee, List<Task>> map, ArrayList<Task> tasks, ArrayList<Employee> employees) throws
             ParseException, IOException,
             ClassNotFoundException {
         FileOutputStream fileOutputStream = new FileOutputStream("john_doe.txt");
@@ -54,13 +21,13 @@ public class SerializationOperations{
 
         objectOutputStream.writeInt(Employee.getCounter());
         objectOutputStream.writeInt(Task.getCounter());
-        objectOutputStream.writeObject(this.map);
-        objectOutputStream.writeObject(this.tasks);
-        objectOutputStream.writeObject(this.employees);
+        objectOutputStream.writeObject(map);
+        objectOutputStream.writeObject(tasks);
+        objectOutputStream.writeObject(employees);
         objectOutputStream.flush();
         objectOutputStream.close();}
 
-    public void getData() throws
+    public void getData(Map<Employee, List<Task>> map, ArrayList<Task> tasks, ArrayList<Employee> employees) throws
             ParseException, IOException,
             ClassNotFoundException{
 
@@ -73,9 +40,12 @@ public class SerializationOperations{
         Employee.setCounter(idE);
         Task.setCounter(idT);
 
-        this.map = (Map<Employee, List<Task>>) objectInputStream.readObject();
-        this.tasks = (ArrayList<Task>) objectInputStream.readObject();
-        this.employees = (ArrayList<Employee>) objectInputStream.readObject();
+        map.clear();
+        map.putAll((Map<Employee, List<Task>>) objectInputStream.readObject());
+        tasks.clear();
+        tasks.addAll((ArrayList<Task>) objectInputStream.readObject());
+        employees.clear();
+        employees.addAll((ArrayList<Employee>) objectInputStream.readObject());
         objectInputStream.close();
     }
 

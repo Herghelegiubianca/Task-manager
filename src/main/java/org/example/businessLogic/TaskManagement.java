@@ -285,14 +285,8 @@ public class TaskManagement {
     public void getInfo() throws Exception
     {
         try{
-           this.serialization.getData();
+           this.serialization.getData(this.map, this.tasks, this.employees);
 
-        this.tasks.clear();
-        this.tasks.addAll(this.serialization.getTasks());
-        this.employees.clear();
-        this.employees.addAll(this.serialization.getEmployees());
-        this.map.clear();
-        this.map.putAll(this.serialization.getMap());
         }
         catch(Exception e)
         {
@@ -303,10 +297,7 @@ public class TaskManagement {
     public void saveInfo()throws Exception
     {
         try{
-            this.serialization.setMap(this.map);
-            this.serialization.setEmployees(this.employees);
-            this.serialization.setTasks(this.tasks);
-        this.serialization.saveData();}
+        this.serialization.saveData(this.map, this.tasks, this.employees);}
         catch(Exception e)
         {
             throw e;
