@@ -1,14 +1,19 @@
-package org.example.DataModel;
+package org.example.dataModel;
 
-public class Employee {
+import java.io.Serializable;
+
+public class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int idEmployee;
     private String name;
+    private static int counter;
 
     public Employee(){}
 
-    public Employee(int idEmployee, String name)
+    public Employee(String name)
     {
-        this.idEmployee=idEmployee;
+        this.idEmployee=counter;
+        counter++;
         this.name=name;
     }
 
@@ -32,6 +37,18 @@ public class Employee {
         return this.name;
     }
 
+    public int getIdEmployee() {
+        return idEmployee;
+    }
+
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Employee.counter=counter;
+    }
+
     @Override
     public int hashCode() {
         int aux=this.idEmployee*7;
@@ -41,7 +58,7 @@ public class Employee {
         {
             if(c!=' ')
             {
-                aux=aux*5+index*(int)c;
+                aux=aux*5+index*this.idEmployee*(int)c;
                 index++;
             }
         }
@@ -65,7 +82,7 @@ public class Employee {
         @Override
         public String toString()
         {
-            return "Nume: "+this.name+", id: "+this.idEmployee;
+            return this.idEmployee+" "+ this.name+"\n";
         }
 
 }

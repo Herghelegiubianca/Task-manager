@@ -1,4 +1,4 @@
-package org.example.BusinessLogic;
+package org.example.businessLogic;
 
 public class NoEmployeesException extends Exception{
     public NoEmployeesException(String message) {
