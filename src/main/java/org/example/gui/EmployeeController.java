@@ -8,12 +8,10 @@ import java.awt.event.ActionListener;
 
 public class EmployeeController {
     private EmployeeView ev;
-    private Model m;
 
-    public EmployeeController(EmployeeView view, Model mod)
+    public EmployeeController(EmployeeView view)
     {
         this.ev=view;
-        this.m=mod;
 
         this.ev.showTasksActionListener(new EmployeeController.ShowSubTasksListener());
         this.ev.modifyStatusActionListener(new EmployeeController.ModifyStatusListener());
@@ -32,7 +30,7 @@ public class EmployeeController {
                 {
                     ComplexTask ct=(ComplexTask)selectedTask;
 
-                    EmployeeView secondView=new EmployeeView(ev.getE(),m);
+                    EmployeeView secondView=new EmployeeView(ev.getE(),ev.getMod());
                     secondView.setCurrentTask(ct);
                     secondView.setTitle();
 
@@ -48,11 +46,11 @@ public class EmployeeController {
                             if(ev.getCurrentTask()!=null)
                             {
                                 ev.getModelTasks().addAll(((ComplexTask)ev.getCurrentTask()).getTasks());
-                            }else ev.getModelTasks().addAll(m.getTm().getMap().get(ev.getE()));
+                            }else ev.getModelTasks().addAll(ev.getMod().getTm().getMap().get(ev.getE()));
                         }
 
                     });
-                    EmployeeController secondController=new EmployeeController(secondView,m);
+                    EmployeeController secondController=new EmployeeController(secondView);
 
                     secondView.showFrame();
                     ev.clearTSel();
@@ -79,7 +77,7 @@ public class EmployeeController {
             if(selectedTask!=null)
             {
                 try{
-                m.modifyStatus(ev.getE(),selectedTask);
+                ev.getMod().modifyStatus(ev.getE(),selectedTask);
                 ev.getModelTasks().clear();
 
                 if(ev.getCurrentTask()!=null)

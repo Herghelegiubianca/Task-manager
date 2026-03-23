@@ -168,7 +168,7 @@ public class Controller {
                 }
 
             });
-                EmployeeController secondController=new EmployeeController(secondView,view.getM());
+                EmployeeController secondController=new EmployeeController(secondView);
                 secondView.showFrame();
                 view.clearESel();
 

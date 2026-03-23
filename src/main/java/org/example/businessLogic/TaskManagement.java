@@ -2,6 +2,7 @@ package org.example.businessLogic;
 import org.example.dataAccess.SerializationOperations;
 import org.example.dataModel.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -227,6 +228,27 @@ public class TaskManagement {
         throw new NonexistentEmployee("Angajatul pentru care doriti sa modificati un task nu exista!");}
 
 
+    public int nrOfTasks (Employee e, List<Task> tasks, String state)
+    {
+        if(this.map.keySet().contains(e)) {
+            if (tasks != null && tasks.size() > 0) {
+                    int nr=0;
+                    for (Task t: tasks)
+                    {
+                        if(t.getStatusTask().equals(state))
+                        {
+                            nr++;
+                        }
+                    }
+                    return nr;
+            }
+        }
+        return 0;
+    }
+
+    //metoda de mai jos calculeaza totalitatea taskurilor simple care sunt in starea state (Completed / Uncompleted)
+
+/*
     public int nrOfTasks(Employee e, List<Task> tasks, String state)
     {
         if(this.map.keySet().contains(e))
@@ -242,7 +264,7 @@ public class TaskManagement {
             }
         }
         return 0;
-    }
+    }*/
 
     public void addEmployee(String name)
     {
@@ -288,7 +310,10 @@ public class TaskManagement {
            this.serialization.getData(this.map, this.tasks, this.employees);
 
         }
-        catch(Exception e)
+        catch(FileNotFoundException e)
+        {
+           System.out.println("Prima rulare!");
+        }catch (Exception e)
         {
             throw e;
         }

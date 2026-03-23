@@ -51,15 +51,12 @@ public class Employee implements Serializable {
 
     @Override
     public int hashCode() {
-        int aux=this.idEmployee*7;
-        int index=1;
-
+        int aux=17*31+this.idEmployee;
         for(char c: this.name.toCharArray())
         {
             if(c!=' ')
             {
-                aux=aux*5+index*this.idEmployee*(int)c;
-                index++;
+                aux=aux*31+c;
             }
         }
         return aux;

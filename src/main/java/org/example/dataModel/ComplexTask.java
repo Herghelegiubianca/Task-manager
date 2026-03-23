@@ -102,7 +102,7 @@ public final class ComplexTask extends Task{
     @Override
     public String toString()
     {
-        String rez="ComplexTask "+this.getIdTask()+"estimatedDuration="+this.estimateDuration()+", status= "+this.getStatusTask()+"\n";
+        String rez="ComplexTask "+this.getIdTask()+", estimatedDuration="+this.estimateDuration()+", status= "+this.getStatusTask()+"\n";
         /*for(Task t: this.tasks)
         {
             rez+=" "+t.toString();
